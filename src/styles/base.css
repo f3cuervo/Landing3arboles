@@ -1,0 +1,114 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+html {
+  color-scheme: dark;
+  background: var(--ta-bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--ta-bg);
+  color: var(--ta-ink-3);
+  font-family: var(--ta-font-mono);
+  font-size: var(--ta-fs-body);
+  font-weight: 400;
+  line-height: var(--ta-lh-body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+p,
+pre,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--ta-font-display);
+  font-weight: 500;
+  color: var(--ta-cream);
+}
+
+h1 {
+  font-size: var(--ta-fs-h1);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+h2 {
+  font-size: var(--ta-fs-h2);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+h3 {
+  font-size: var(--ta-fs-h3);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--ta-accent);
+  color: var(--ta-bg);
+}
+
+/* Punto final terracota de los titulares */
+.ta-dot {
+  color: var(--ta-accent);
+}
+
+/* Texto solo para tecnologías de asistencia */
+.ta-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Etiquetas en mayúsculas pequeñas (FIG., coordenadas, metadatos) */
+.ta-label {
+  font-size: var(--ta-fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--ta-ink-2);
+}

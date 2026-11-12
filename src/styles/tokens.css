@@ -1,0 +1,40 @@
+/* Tokens de marca Tres Árboles.
+   --ta-ink-2 y --ta-accent están aclarados respecto al diseño original
+   (#7E766C, #C4572F) para alcanzar 4.5:1 sobre --ta-bg y --ta-surface. */
+:root {
+  /* Color */
+  --ta-bg: #0b0a09;
+  --ta-surface: #110f0d;
+  --ta-ink-0: #2b2723;
+  --ta-ink-1: #4f4943;
+  --ta-ink-2: #847b71;
+  --ta-ink-3: #b3aa9d;
+  --ta-ink-4: #e2dace;
+  --ta-cream: #f7f3ec;
+  --ta-accent: #cc5a31;
+  --ta-accent-hot: #ee8a60;
+  --ta-accent-dim: #7a3a22;
+  --ta-accent-tint: rgba(204, 90, 49, 0.08);
+
+  /* Tipografía */
+  --ta-font-display: 'Space Grotesk', system-ui, sans-serif;
+  --ta-font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+
+  --ta-fs-h1: clamp(72px, 9.2vw, 132px);
+  --ta-fs-slogan: clamp(22px, 2.1vw, 30px);
+  --ta-fs-h2: clamp(36px, 4.2vw, 60px);
+  --ta-fs-talk: clamp(64px, 9vw, 140px);
+  --ta-fs-h3: 26px;
+  --ta-fs-body: 15px;
+  --ta-fs-body-sm: 14px;
+  --ta-fs-button: 13px;
+  --ta-fs-label: 12px;
+  --ta-fs-label-sm: 11px;
+
+  --ta-lh-body: 1.75;
+
+  /* Estructura */
+  --ta-line: 1px solid var(--ta-ink-0);
+  --ta-gutter: clamp(16px, 3.2vw, 48px);
+  --ta-target: 44px;
+}

@@ -1,0 +1,383 @@
+/* Efectos de movimiento Tres Árboles.
+   Regla: todo avanza por pasos (steps()) o en cuadros discretos. Nunca curvas suaves. */
+
+/* ───────── Foco de teclado ───────── */
+:focus-visible {
+  outline: 2px solid var(--ta-accent-hot);
+  outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Cadenas de bits decorativas: se pintan con ::before para no contar como texto. */
+.ta-bits::before {
+  content: attr(data-bits);
+}
+
+/* ───────── Título: decodificación + glitch ───────── */
+.ta-glitch {
+  position: relative;
+  white-space: pre-line;
+}
+
+.ta-glitch__text {
+  display: block;
+}
+
+.ta-glitch__layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.ta-glitch__layer--a {
+  color: var(--ta-accent);
+}
+
+.ta-glitch__layer--b {
+  color: var(--ta-ink-4);
+}
+
+.ta-glitch.is-glitching .ta-glitch__layer {
+  visibility: visible;
+}
+
+.ta-glitch.is-glitching .ta-glitch__layer--a {
+  animation: ta-glitch-a 240ms steps(3) infinite;
+}
+
+.ta-glitch.is-glitching .ta-glitch__layer--b {
+  animation: ta-glitch-b 300ms steps(3) infinite;
+}
+
+/* Variante sutil (títulos de sección): franjas finas, desplazamiento ≤ 3px */
+.ta-glitch--subtle {
+  white-space: normal;
+}
+
+.ta-glitch--subtle.is-glitching .ta-glitch__layer--a {
+  animation: ta-glitch-subtle-a 200ms steps(3) infinite;
+}
+
+.ta-glitch--subtle.is-glitching .ta-glitch__layer--b {
+  animation: ta-glitch-subtle-b 200ms steps(3) infinite;
+}
+
+@keyframes ta-glitch-subtle-a {
+  0% {
+    clip-path: inset(12% 0 80% 0);
+    transform: translate(-2px, 0);
+  }
+  50% {
+    clip-path: inset(58% 0 34% 0);
+    transform: translate(3px, 0);
+  }
+  100% {
+    clip-path: inset(82% 0 10% 0);
+    transform: translate(-1px, 0);
+  }
+}
+
+@keyframes ta-glitch-subtle-b {
+  0% {
+    clip-path: inset(40% 0 52% 0);
+    transform: translate(2px, 0);
+  }
+  50% {
+    clip-path: inset(70% 0 22% 0);
+    transform: translate(-3px, 0);
+  }
+  100% {
+    clip-path: inset(24% 0 68% 0);
+    transform: translate(1px, 0);
+  }
+}
+
+@keyframes ta-glitch-a {
+  0% {
+    clip-path: inset(6% 0 74% 0);
+    transform: translate(-5px, 0);
+  }
+  33% {
+    clip-path: inset(44% 0 38% 0);
+    transform: translate(4px, 0);
+  }
+  66% {
+    clip-path: inset(72% 0 8% 0);
+    transform: translate(-3px, 0);
+  }
+  100% {
+    clip-path: inset(22% 0 60% 0);
+    transform: translate(6px, 0);
+  }
+}
+
+@keyframes ta-glitch-b {
+  0% {
+    clip-path: inset(58% 0 24% 0);
+    transform: translate(4px, 0);
+  }
+  33% {
+    clip-path: inset(14% 0 70% 0);
+    transform: translate(-6px, 0);
+  }
+  66% {
+    clip-path: inset(80% 0 4% 0);
+    transform: translate(3px, 0);
+  }
+  100% {
+    clip-path: inset(34% 0 50% 0);
+    transform: translate(-4px, 0);
+  }
+}
+
+/* ───────── Botones ───────── */
+.ta-btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: var(--ta-target);
+  padding: 0 20px;
+  border: 1px solid var(--ta-ink-0);
+  overflow: hidden;
+  font-family: var(--ta-font-mono);
+  font-size: var(--ta-fs-button);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--ta-cream);
+  cursor: pointer;
+  user-select: none;
+  /* el texto cambia de color de golpe a mitad del relleno */
+  transition:
+    color 280ms steps(2, jump-none),
+    border-color 280ms steps(2, jump-none);
+}
+
+.ta-btn__fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 280ms steps(7);
+}
+
+.ta-btn__arrow {
+  display: inline-block;
+  transition: transform 160ms steps(2);
+}
+
+.ta-btn:hover,
+.ta-btn:focus-visible {
+  animation: ta-signal 120ms steps(1) 2;
+}
+
+.ta-btn:hover .ta-btn__fill,
+.ta-btn:focus-visible .ta-btn__fill {
+  transform: scaleX(1);
+}
+
+.ta-btn:hover .ta-btn__arrow,
+.ta-btn:focus-visible .ta-btn__arrow {
+  transform: translateX(4px);
+}
+
+.ta-btn:active {
+  transform: translateY(1px);
+}
+
+/* primario: terracota → relleno crema, texto siempre --ta-bg */
+.ta-btn--primary {
+  background: var(--ta-accent);
+  border-color: var(--ta-accent);
+  color: var(--ta-bg);
+}
+
+.ta-btn--primary .ta-btn__fill {
+  background: var(--ta-cream);
+}
+
+.ta-btn--primary:hover,
+.ta-btn--primary:focus-visible {
+  border-color: var(--ta-cream);
+}
+
+/* secundario y outline: relleno terracota, texto pasa a --ta-bg (contraste ≥ 4.5:1) */
+.ta-btn--secondary .ta-btn__fill,
+.ta-btn--outline .ta-btn__fill {
+  background: var(--ta-accent);
+}
+
+.ta-btn--outline {
+  border-color: var(--ta-accent);
+}
+
+.ta-btn--secondary:hover,
+.ta-btn--secondary:focus-visible,
+.ta-btn--outline:hover,
+.ta-btn--outline:focus-visible {
+  border-color: var(--ta-accent);
+  color: var(--ta-bg);
+}
+
+@keyframes ta-signal {
+  0% {
+    box-shadow:
+      -2px 0 0 var(--ta-accent-hot),
+      2px 0 0 var(--ta-ink-4);
+  }
+  50% {
+    box-shadow:
+      2px 0 0 var(--ta-accent-hot),
+      -2px 0 0 var(--ta-ink-4);
+  }
+  100% {
+    box-shadow: none;
+  }
+}
+
+/* ───────── Enlaces del menú y filas de contacto ───────── */
+.ta-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--ta-target);
+  min-width: var(--ta-target);
+  font-size: var(--ta-fs-button);
+  color: var(--ta-ink-3);
+}
+
+.ta-link__index {
+  color: var(--ta-ink-2);
+}
+
+.ta-link__arrow {
+  display: inline-block;
+  transition: transform 240ms steps(3);
+}
+
+.ta-link__bits {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  height: 8px;
+  overflow: hidden;
+  font-family: var(--ta-font-mono);
+  font-size: 8px;
+  line-height: 8px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  color: var(--ta-accent);
+  pointer-events: none;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 300ms steps(8);
+}
+
+.ta-link:hover .ta-link__index,
+.ta-link:focus-visible .ta-link__index {
+  color: var(--ta-accent);
+}
+
+/* La etiqueta se decodifica desde bits en terracota (useScramble) y queda terracota */
+.ta-link:hover .ta-link__label,
+.ta-link:focus-visible .ta-link__label {
+  color: var(--ta-accent);
+}
+
+/* Filas: la línea de bits es la palabra en binario (8 bits por letra) y se escribe
+   byte a byte. Si la fila es estrecha, salta a una segunda línea entre bytes. */
+.ta-link--row .ta-link__bits {
+  right: auto;
+  bottom: 4px;
+  height: auto;
+  line-height: 9px;
+  letter-spacing: 0;
+  white-space: pre-wrap;
+  transition-duration: calc(var(--ta-bytes, 8) * 40ms);
+  transition-timing-function: steps(var(--ta-bytes, 8));
+}
+
+.ta-link:hover .ta-link__bits,
+.ta-link:focus-visible .ta-link__bits {
+  clip-path: inset(0 0 0 0);
+}
+
+.ta-link:hover .ta-link__arrow,
+.ta-link:focus-visible .ta-link__arrow {
+  transform: translateX(6px);
+}
+
+.ta-link--row:hover,
+.ta-link--row:focus-visible {
+  background: var(--ta-accent-tint);
+}
+
+/* ───────── Tarjetas: borde terracota + bus por la base ───────── */
+.ta-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--ta-ink-0);
+}
+
+.ta-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  /* cola apagada y cabeza encendida con corte duro: no es un degradado */
+  background: linear-gradient(
+    90deg,
+    var(--ta-accent-dim) 0 88%,
+    var(--ta-accent-hot) 88% 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 300ms steps(8);
+  pointer-events: none;
+}
+
+.ta-card:hover {
+  border-color: var(--ta-accent);
+}
+
+.ta-card:hover::after {
+  transform: translateX(0);
+}
+
+/* ───────── Movimiento reducido ───────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .ta-glitch__layer {
+    display: none;
+  }
+
+  .ta-btn:hover .ta-btn__arrow,
+  .ta-btn:focus-visible .ta-btn__arrow,
+  .ta-link:hover .ta-link__arrow,
+  .ta-link:focus-visible .ta-link__arrow,
+  .ta-btn:active {
+    transform: none;
+  }
+
+  .ta-link__bits,
+  .ta-card::after {
+    display: none;
+  }
+}
